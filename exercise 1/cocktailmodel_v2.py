@@ -27,8 +27,8 @@ def solve(ingredients, prices, alcohol, sugar, calories, min_alcohol, max_alcoho
     # !!! Nichtlinearitaeten,im Modell z.B. Multiplikation zweier Entscheidungsvariablen fuehren zu 0 Punkten !!!
     # !!! nonlinearities in the model, e.g., multiplication of two decision variables, result in getting 0 points !!!
     model.addConstr(quicksum(x[i] for i in ingredients) >= min_volume, "min_volume")
-    model.addConstr(quicksum(x[i]*alcohol[i] for i in ingredients) <= max_alcohol, "max_alcohol")
-    model.addConstr(quicksum(x[i]*alcohol[i] for i in ingredients) >= min_alcohol, "min_alcohol")
+    model.addConstr(quicksum(x[i]*alcohol[i] for i in ingredients) <= max_alcohol*quicksum(x[i] for i in ingredients), "max_alcohol")
+    model.addConstr(quicksum(x[i]*alcohol[i] for i in ingredients) >= min_alcohol*quicksum(x[i] for i in ingredients), "min_alcohol")
     model.addConstr(quicksum(x[i]*sugar[i] for i in ingredients) >= min_sugar, "min_sugar")
     model.addConstr(quicksum(x[i]*calories[i] for i in ingredients) <= max_calories, "max_calories")
     
