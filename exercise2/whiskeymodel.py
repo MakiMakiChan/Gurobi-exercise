@@ -33,14 +33,14 @@ def solve(sorten, kosten, max_import, mischungen, erloes, min_amount, max_amount
     # !!! nonlinearities in the model, e.g., multiplication of two decision variables, result in getting 0 points !!!
     for m in mischungen:
         for s in sorten:
-            model.addConstr(x[s,m] >= min_amount[s,m]*quicksum(x[s,m] for s in sorten))
+            model.addConstr(x[s,m] >= min_amount[s,m]*quicksum(x[s,m] for s in sorten), "min_amount "+s+"in "+m)
         
     for m in mischungen:
         for s in sorten:
-            model.addConstr(x[s,m] <= max_amount[s,m]*quicksum(x[s,m] for s in sorten))
+            model.addConstr(x[s,m] <= max_amount[s,m]*quicksum(x[s,m] for s in sorten), "max_amount "+s+"in "+m)
     
     for s in sorten:
-        model.addConstr(quicksum(x[s,m] for m in mischungen) <= max_import[s])
+        model.addConstr(quicksum(x[s,m] for m in mischungen) <= max_import[s], "max_import "+s)
 
 
 
